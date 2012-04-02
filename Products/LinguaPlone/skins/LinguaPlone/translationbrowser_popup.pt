@@ -20,8 +20,7 @@
     </style>
 </head>
     <body class="popup atrefbrowser" onload="focus();self.name='referencebrowser_popup'" style="margin: 4px;padding:0.5em;"
-          tal:define="border_color here/base_properties/globalBorderColor;
-                      at_type python:here.REQUEST.get('at_type');
+          tal:define="at_type python:here.REQUEST.get('at_type');
                       at_url python:here.REQUEST.get('at_url');
                       at_obj python:here.restrictedTraverse(at_url);
                       search_index python:here.REQUEST.get('search_index', 'SearchableText');
@@ -80,8 +79,8 @@
         <!-- actual list of objects, either searchresults or folder contents -->
         <tal:block tal:define="query_results python:search_text and [brain.getObject() for brain in here.translationbrowser_queryCatalog()];">
             <div style="border-top:1px solid black;border-bottom:1px solid black;"
-                     tal:attributes="style string:border-top:1px solid ${border_color};;
-                                           border-bottom:1px solid ${border_color};;
+                     tal:attributes="style string:border-top:1px solid;;
+                                           border-bottom:1px solid;;
                                            margin-bottom:1em;;padding:0.2em 0 0.1em 0;;
                                            margin-top:1.5em;;"
                      tal:condition="python: search_text!='' and query_results!=[]">
@@ -89,8 +88,8 @@
             </div>
             <!-- breadcrums -->
                <div style="border-top:1px solid black;border-bottom:1px solid black;"
-                     tal:attributes="style string:border-top:1px solid ${border_color};;
-                                           border-bottom:1px solid ${border_color};;
+                     tal:attributes="style string:border-top:1px solid;;
+                                           border-bottom:1px solid;;
                                            margin-bottom:1em;;padding:0.2em 0 0.1em 0;;margin-top:1.5em;"
                      tal:condition= "python:search_text==''"
                      tal:define=    "portal here/portal_url/getPortalObject;
@@ -147,8 +146,7 @@
                         <tal:results tal:repeat="item batch">
                             <tal:row  tal:define="uid item/aq_explicit/UID|string:'';
                                                   has_uid python:hasattr(item.aq_explicit, 'UID');
-                                                  referenceable python: has_uid and item!=at_obj and item.portal_type==at_type;
-                                                  color here/base_properties/discreetColor;">
+                                                  referenceable python: has_uid and item!=at_obj and item.portal_type==at_type;">
 
                                 <tr tal:define="oddrow repeat/item/odd"
                                     tal:attributes="class python:test(oddrow, 'even', 'odd')">
@@ -168,7 +166,7 @@
                                             <span style=""
                                                   tal:condition="python:not referenceable"
                                                   tal:content="item/title_or_id"
-                                                  tal:attributes="style string:color:${color}" />
+                                                  />
                                         </tal:foldercheck>
 
                                         <div>
@@ -183,7 +181,6 @@
                                         style=""
                                         i18n:domain="plone"
                                         i18n:translate=""
-                                        tal:attributes="style python:test(referenceable, '', 'color:' + color)"
                                         tal:content="python:item.getTypeInfo().Title()">
                                         Title
                                     </td>
